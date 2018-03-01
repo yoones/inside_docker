@@ -1,5 +1,7 @@
 # InsideDocker
 
+[![Gem Version](https://badge.fury.io/rb/inside_docker.svg)](https://rubygems.org/gems/inside_docker)
+
 ## Installation
 
 Add this line to your application's Gemfile:
