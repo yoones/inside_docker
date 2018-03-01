@@ -5,5 +5,7 @@ class Object
     File.readlines("/proc/1/sched").each do |line|
       return line.strip != "systemd (1, #threads: 1)"
     end
+  rescue Errno::ENOENT => e
+    false
   end
 end
