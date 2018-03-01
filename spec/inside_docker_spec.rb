@@ -10,11 +10,12 @@ RSpec.describe InsideDocker do
   describe "inside_docker?" do
     let(:target_file) { "/proc/1/sched" }
 
-    before do
-      allow(File).to receive(:readlines).with(target_file).and_return([target_file_content])
-    end
 
     context "when inside a docker container" do
+      before do
+        allow(File).to receive(:readlines).with(target_file).and_return([target_file_content])
+      end
+      
       let(:target_file_content) { "bash (10418, #threads: 1)" }
 
       it "returns true" do
@@ -23,7 +24,21 @@ RSpec.describe InsideDocker do
     end
 
     context "when outside a docker container" do
+      before do
+        allow(File).to receive(:readlines).with(target_file).and_return([target_file_content])
+      end
+      
       let(:target_file_content) { "systemd (1, #threads: 1)" }
+
+      it "returns false" do
+        expect(inside_docker?).to be(false)
+      end
+    end
+
+    context "when outside a docker container on OSX" do
+      before do
+        allow(File).to receive(:readlines).and_raise(Errno::ENOENT)
+      end
 
       it "returns false" do
         expect(inside_docker?).to be(false)
